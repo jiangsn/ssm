@@ -1,0 +1,183 @@
+package com.snow.controller;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.snow.service.ISysUserService;
+import com.snow.util.DatetUtil;
+import com.snwo.pojo.TBSysUser;
+
+@Controller
+@RequestMapping("/sysUser")
+public class TBSysUserController {
+	
+	@Autowired
+	private ISysUserService sysuserservice ;
+	
+	//注册
+	@RequestMapping("regSysUser")
+	public ModelAndView regSysUser(TBSysUser sysuser) {
+ModelAndView modelandview = new ModelAndView();
+		
+		TBSysUser SysUser = sysuserservice.findSysUserByUsername(sysuser.getUsername()) ;
+
+		if (SysUser != null) {
+			modelandview.addObject("message", "no") ;
+			modelandview.setViewName("addSysUser");
+		} else {
+				sysuser.setCtime(DatetUtil.getDataString(new Date()));
+		
+				sysuserservice.addSysUser(sysuser) ;
+				List<TBSysUser> findSysUser = sysuserservice.findSysUser() ;
+	
+				modelandview.addObject("SysUser", findSysUser) ;
+				modelandview.setViewName("sysUserList");
+		}
+		return modelandview;
+	}
+	
+	
+	
+	//添加用户
+	
+	@RequestMapping("addSysUser")
+	public ModelAndView addSysUser(TBSysUser sysuser) {
+		ModelAndView modelandview = new ModelAndView();
+		
+		TBSysUser SysUser = sysuserservice.findSysUserByUsername(sysuser.getUsername()) ;
+
+		if (SysUser != null) {
+			modelandview.addObject("message", "no") ;
+			modelandview.setViewName("addSysUser");
+		} else {
+				sysuser.setCtime(DatetUtil.getDataString(new Date()));
+		
+				sysuserservice.addSysUser(sysuser) ;
+				List<TBSysUser> findSysUser = sysuserservice.findSysUser() ;
+	
+				modelandview.addObject("SysUser", findSysUser) ;
+				modelandview.setViewName("sysUserList");
+		}
+		return modelandview;
+		
+	}
+	// 登陆
+	@RequestMapping("loginSysUser")
+	public ModelAndView loginSysUser(HttpSession session ,TBSysUser sysuser,HttpServletRequest request) {
+		
+		ModelAndView modelandview = new ModelAndView() ;
+		
+		TBSysUser SysUser = sysuserservice.loginSysUser(sysuser) ;
+			 
+		if (SysUser != null) {
+			SysUser.setLtime(DatetUtil.getDataString(new Date()));
+			sysuserservice.updateSysUserltime(SysUser) ;
+			session.setAttribute("SysUser", SysUser);
+		
+			
+			modelandview.addObject("SysUser", SysUser) ;
+			modelandview.setViewName("index");	
+		} else {
+			modelandview.addObject("msg", "用户名或密码错误") ;
+			modelandview.setViewName("login");	
+		}
+		     return modelandview ;
+	}
+
+	//查询用户
+	@RequestMapping("findSysUser")
+	public ModelAndView findSysUser() {
+	
+		 List<TBSysUser> SysUser = sysuserservice.findSysUser();
+ 
+		ModelAndView modelandview = new ModelAndView() ;
+		modelandview.addObject("SysUser", SysUser) ;
+		
+		modelandview.setViewName("sysUserList");
+		
+		return modelandview;
+		
+	}
+	//删除用户
+	
+	@RequestMapping("deleteSysUser")
+	public ModelAndView deleteSysUser( TBSysUser sysuser) {
+		
+		sysuserservice.deleteSysUser(sysuser);
+		List<TBSysUser> SysUser = sysuserservice.findSysUser();
+		ModelAndView modelandview = new ModelAndView() ;
+		modelandview.addObject("SysUser", SysUser) ;
+		
+		modelandview.setViewName("sysUserList");
+		
+		return modelandview;	
+	}
+	
+	//修改用户
+	@RequestMapping("toEdit")
+	public ModelAndView findSysUserById(Integer id) {
+		TBSysUser SysUser = sysuserservice.readSysUserById(id) ;
+
+		ModelAndView modelandview = new ModelAndView() ;
+		modelandview.addObject("sysUser", SysUser) ;
+		modelandview.setViewName("editSysUser");
+		return modelandview;		
+	}
+	
+	//保存修改的用户
+	@RequestMapping("updateSysUser")
+	public ModelAndView updateSysUser(TBSysUser sysuser) {
+		sysuserservice.updateSysUser(sysuser) ;
+		
+		List<TBSysUser> SysUser = sysuserservice.findSysUser();
+		ModelAndView modelandview = new ModelAndView() ;
+		modelandview.addObject("SysUser", SysUser) ;
+		
+		modelandview.setViewName("sysUserList");
+		
+		return modelandview;		
+	}
+	
+	//模糊查询
+	@RequestMapping("readSysUselikename")
+	public ModelAndView readSysUselikename(TBSysUser sysuser) {
+		List<TBSysUser> SysUselikename = sysuserservice.readSysUselikename(sysuser);
+		
+	
+		ModelAndView modelandview = new ModelAndView() ;
+		modelandview.addObject("SysUser", SysUselikename) ;
+		
+		modelandview.setViewName("sysUserList");
+		
+		return modelandview;		
+	}
+	
+	//查询用户名是否可以用
+
+	@RequestMapping("findSysUserByUsername")
+	@ResponseBody
+	public String findSysUserByUsername(String Username) {
+	
+		TBSysUser SysUser = sysuserservice.findSysUserByUsername(Username) ;
+		String message = null ;
+		if(SysUser == null) {
+			message = "{\"message\":\"yes\"}" ;
+		} else {
+			message = "{\"message\":\"no\"}" ;	
+		}
+		return message;
+	}
+	
+	
+	
+	
+}

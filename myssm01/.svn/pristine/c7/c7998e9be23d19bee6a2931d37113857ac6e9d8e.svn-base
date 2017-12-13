@@ -1,0 +1,185 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>ER_LEI商城管理系统</title>
+<meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+<meta name="description"
+	content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+<link rel="shortcut icon" href="favicon.ico">
+<link href="${pageContext.request.contextPath }/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/css/animate.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/css/style.min.css?v=4.0.0" rel="stylesheet">
+
+<script src="${pageContext.request.contextPath }/js/jquery.min.js?v=2.1.4"></script>
+<script src="${pageContext.request.contextPath }/js/bootstrap.min.js?v=3.3.5"></script>
+<script src="${pageContext.request.contextPath }/js/content.min.js?v=1.0.0"></script>
+<script src="${pageContext.request.contextPath }/js/plugins/iCheck/icheck.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/plugins/layer/layer.js"></script>
+<script>
+	$(document).ready(function() {
+		$(".i-checks").iCheck({
+			checkboxClass : "icheckbox_square-green",
+			radioClass : "iradio_square-green",
+		})
+	});
+</script>
+
+<script type="text/javascript">
+	$(function () {
+		$("#menuType").change(function() {
+			var val = $(this).val();
+			var pid= $("#parentId");
+			if(val == -1){
+				pid.empty();
+				pid.attr("disabled","disabled");
+				pid.append("<option value='0'>顶级菜单</option>");
+			}
+			
+			
+			if(val > -1){
+				//异步的获取子菜单列表
+				$.ajax({
+					url:"/myssm01/sysmenu/findMenubyid",
+					data:{menuType : val},
+					dataType:"json",
+					type:"post",
+					success:function(data){
+						
+						if(data.length == 0){
+							pid.empty();
+							pid.append("<option value='0'>不能创建该菜单，先创建上级菜单</option>");
+							pid.attr("disabled","disabled");
+						}else{
+							
+							pid.empty();
+							for(i = 0;i < data.length;i++){
+								pid.append("<option value="+data[i].menu_id+">"+data[i].name+"</option>");
+								
+							}
+							pid.removeAttr("disabled");
+						}
+						
+						
+					}
+				});
+			}
+		});
+		
+		
+	});
+
+
+
+
+
+
+</script>
+
+
+
+</head>
+
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>
+							系统菜单管理 <small>添加菜单</small>
+						</h5>
+						<div class="ibox-tools">
+							<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+							</a> <a class="dropdown-toggle" data-toggle="dropdown"
+								href="form_basic.html#"> <i class="fa fa-wrench"></i>
+							</a>
+						</div>
+					</div>
+					<div class="ibox-content">
+						<form method="get" class="form-horizontal"
+							action="${pageContext.request.contextPath }/sysmenu/addSysMenu" id="checkform">
+							<!-- 菜单类型 -->
+							<div class="form-group">
+								<label class="col-sm-2 control-label">菜单级别</label>
+								<div class="col-sm-4">
+									<select name="menuType"  class="form-control m-b" id="menuType">
+										<option value="-1">一级菜单</option>
+										<option value="0">二级菜单</option>
+										<option value="1">三级菜单</option>
+									</select>
+									
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<!-- 父菜单编号 输入框 -->
+							<div class="form-group">
+								<label class="col-sm-2 control-label">父菜单</label>
+
+								<div class="col-sm-4">
+									<select name="parent_id" id="parentId" class="form-control m-b" id="menuType" disabled="disabled">
+										<option value="0" selected="selected">请选择父菜单</option>
+									</select>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<!-- 菜单名称输入框 -->
+							<div class="form-group">
+								<label class="col-sm-2 control-label">菜单名称</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="name" value="${menu.name }">
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+
+							<!--菜单链接-->
+							<div class="form-group">
+								<label class="col-sm-2 control-label">菜单链接</label>
+
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="url" value="${menu.url }">
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+
+
+							<!-- 菜单类型 输入框 -->
+							<div class="form-group">
+								<label class="col-sm-2 control-label">菜单类型</label>
+
+								<div class="col-sm-4">
+									<select name="type"  class="form-control m-b" id="type">
+										<option value="-1">一</option>
+										<option value="0">二</option>
+									
+									</select>
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit">确认添加</button>
+									<a href="user/user_manager_list" class="btn btn-white">取消</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

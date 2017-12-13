@@ -1,0 +1,7 @@
+package com.snow.service;
+
+import com.snwo.pojo.TBSysLogs;
+
+public interface ISysLogService {
+	public Integer saveSysLog(TBSysLogs tbSysLog);
+}

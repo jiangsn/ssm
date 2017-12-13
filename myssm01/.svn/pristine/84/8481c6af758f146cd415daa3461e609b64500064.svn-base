@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snow.dao.SysRole">
+	<select id="readSysRole" resultType="com.snwo.pojo.TBSysRole">
+		select 
+			* 
+		from
+			 tbsysrole
+		where 
+			status = 1 
+	</select>
+<!-- ************************************************************************************ -->	
+	<insert id="addSysRole" parameterType="com.snwo.pojo.TBSysRole" >
+		insert into
+			tbsysrole(name,menu_qx,add_qx,edit_qx,del_qx,select_qx,utime,ctime)
+		values
+			(#{name},#{menu_qx},#{add_qx},#{edit_qx},#{del_qx},#{select_qx},#{utime},#{ctime})
+	</insert>
+	
+	<!-- ************************************************************************************* -->
+	
+	<update id="deleteSysRole" parameterType="com.snwo.pojo.TBSysRole">
+		update 
+			 tbsysrole
+		set 
+			status = 0 
+		where 
+			role_id=#{role_id} 
+	</update>
+	
+	<!-- *********************************************************************************************** -->
+	<select id="updateSysRole" resultType="com.snwo.pojo.TBSysRole">
+		select 
+			* 
+		from
+			tbsysrole
+		where 
+			role_id=#{id}
+		and 
+			status= 1 	
+	</select>
+	<!-- ************************************************************************************************* -->
+	
+	<update id="updateSysRolectime" parameterType="com.snwo.pojo.TBSysRole">
+		update
+			tbsysrole
+		set
+			name=#{name},
+			menu_qx=#{menu_qx},
+			add_qx=#{add_qx},
+			edit_qx=#{edit_qx},
+			del_qx=#{del_qx},
+			select_qx=#{select_qx}
+		where 
+			status = 1 	
+		and role_id=#{role_id}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

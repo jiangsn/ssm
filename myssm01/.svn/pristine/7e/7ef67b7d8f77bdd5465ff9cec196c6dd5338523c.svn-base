@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	
+<mapper namespace="com.snow.dao.SysGoods">
+	<sql id="table_name">tbgoods</sql>
+	<select id="readSysGoods"  resultType="com.snwo.pojo.TBSysGoods">
+		select 
+			*
+		from 
+			<include refid="table_name" />		
+		where 
+			status = 1 
+	</select>
+	
+	<insert id="addSysGoods" parameterType="com.snwo.pojo.TBSysGoods">
+	insert into
+		tbgoods(goods_name,goods_info,category_id,goods_pic,goods_price,goods_sale_price,goods_prop,goods_desc,goods_tag,goods_count,goods_stime,sysuser_id,ctime)
+	values
+		(#{goods_name},#{goods_info},#{category_id},#{goods_pic},#{goods_price},#{goods_sale_price},#{goods_prop},#{goods_desc},#{goods_tag},#{goods_count},#{goods_stime},#{sysuser_id},#{ctime})
+		
+	
+	</insert>
+	
+	<delete id="deteleSysGoods" >
+		update 
+			 tbgoods
+		set 
+			status = 0 
+		where 
+			goods_id=#{id} 	
+	</delete>
+	
+
+</mapper>

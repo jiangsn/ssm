@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snow.dao.SysMenu">
+
+	<sql id="table_name">tbsysmenu</sql>
+	
+	<select id="readSysMenu" resultType="com.snwo.pojo.TBSysMenu">
+		select 
+			* 
+		from 
+			<include refid="table_name" />
+		where 
+			status = 1 
+	</select>
+
+
+	
+	
+	
+	<select id="readSysMenuByid" resultType="com.snwo.pojo.TBSysMenu">
+		select 
+			* 
+		from 
+			<include refid="table_name" />
+		where 
+			status = 1 
+		and 
+			parent_id = #{id}
+	</select>
+
+		
+	<insert id="addSysMenu" parameterType="com.snwo.pojo.TBSysMenu">
+		insert into 
+			tbsysmenu(name,url,parent_id,type,ctime)
+		values
+			(#{name},#{url},#{parent_id},#{type},#{ctime})
+		
+	</insert>
+
+
+
+
+
+
+</mapper>

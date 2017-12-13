@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	
+<mapper namespace="com.snow.dao.SysLogs">
+
+	<insert id="saveSysLog"  parameterType="com.snwo.pojo.TBSysLogs">
+		insert into 
+			tbsyslog(sysuser_id,sysname,log_time,content)
+		values
+			(#{sysuser_id},#{sysname},#{log_time},#{content})	
+	</insert>
+  <select id="selectAll" resultType="com.snwo.pojo.TBSysLogs">
+  	select *
+  		from tbsyslog
+  </select>
+
+</mapper>

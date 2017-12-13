@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snow.dao.SysUser">
+	<insert id="createSysUser" parameterType="com.snwo.pojo.TBSysUser">
+		insert into 
+			tbSysUser(username,password,name,role_id,email,phone,ctime)
+		values
+			(#{username},#{password},#{name},#{role_id},#{email},#{phone},#{ctime})
+
+	</insert>
+<!-- ************************************************************************************************** -->
+	
+	<select id="readSysUser" parameterType="com.snwo.pojo.TBSysUser" resultType="com.snwo.pojo.TBSysUser">
+		select 
+			* 
+		from
+			tbSysUser
+		where 
+			 username=#{username}
+		and
+			password=#{password}
+		and 
+			status= 1 ;
+	</select>
+<!-- ************************************************************************************************** -->
+	
+	<select id="findSysUser"  resultType="com.snwo.pojo.TBSysUser">
+	select 
+		* 
+	from 
+		tbSysUser 
+	where 
+		status= 1 ;
+		
+	</select>
+<!-- ************************************************************************************************** -->
+
+	<update id="deleteSysUser" parameterType="com.snwo.pojo.TBSysUser">
+		update 
+			 tbSysUser
+		set 
+			status = 0 
+		where 
+			sysuser_id=#{sysuser_id} 
+	
+	</update>
+
+<!-- ************************************************************************************************** -->
+	<select id="readSysUserById"  resultType="com.snwo.pojo.TBSysUser">
+	select 
+		* 
+	from 
+		tbSysUser 
+	where 
+		status= 1 
+	and 
+		sysuser_id = #{id}
+		
+	</select>
+<!-- ************************************************************************************************** -->
+	<!-- 修改用户信息 -->
+	<update id="updateSysUser" parameterType="com.snwo.pojo.TBSysUser">
+		update 
+			tbSysUser
+		set 
+			username = #{username},
+			password = #{password},
+			name = #{name},
+			role_id=#{role_id},
+			email=#{email},
+			phone=#{phone}		
+		where 
+			sysuser_id=#{sysuser_id} 
+
+	</update>
+<!-- ************************************************************************************************** -->	
+	<update id="updateSysUserltime" parameterType="com.snwo.pojo.TBSysUser">
+		update 
+			tbSysUser
+		set 
+			ltime = #{ltime}
+			
+		where 
+			sysuser_id=#{sysuser_id} 
+
+	</update>
+	<!-- ************************************************************************************************** -->	
+	<select id="readSysUselikename" parameterType="com.snwo.pojo.TBSysUser" resultType="com.snwo.pojo.TBSysUser">
+		select 
+			*
+		from
+			tbSysUser
+			<where>
+				<if test="username != null and username != '' ">
+					username like '%${username}%'	
+				</if>
+			
+			
+			 </where> 
+	
+	</select>
+	
+	<!-- 查询用户名 -->
+	<select id="findSysUserByUsername" resultType="com.snwo.pojo.TBSysUser">
+	select 
+		*
+	from
+		tbSysUser
+	where 
+		username = #{username}	
+	
+	</select>
+	
+	
+	
+	
+</mapper>

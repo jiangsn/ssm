@@ -1,0 +1,7 @@
+package com.snow.dao;
+
+import com.snwo.pojo.TBSysLogs;
+
+public interface SysLogs {
+	public Integer saveSysLog(TBSysLogs tbSysLog);
+}

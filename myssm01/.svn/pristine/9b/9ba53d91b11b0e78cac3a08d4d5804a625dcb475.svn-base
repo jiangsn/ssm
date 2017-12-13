@@ -1,0 +1,183 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<!DOCTYPE html>
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <title>系统用户编辑</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="${pageContext.request.contextPath }/shortcut icon" href="favicon.ico"> 
+    <link href="${pageContext.request.contextPath }/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/css/animate.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/css/style.min.css?v=4.0.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        
+       
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>系统角色管理 <small>编辑系统角色</small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                             
+                             
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <form action="${pageContext.request.contextPath }/sysRole/editSysRoleSubmit"  method="post" class="form-horizontal">
+                        <input type="hidden" name="role_id" value="${SysRole.role_id}">
+                        	<!-- 用户名输入框 -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">角色名</label>
+
+                                <div class="col-sm-4">
+                                    <input type="text" id="userName" name="name" value="${SysRole.name}" class="form-control" required="required">
+                                </div>
+                            </div>
+                            
+                            <div class="hr-line-dashed"></div>
+                            
+                            <!-- 角色下拉 -->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">菜单权限</label>
+
+                                <div class="col-sm-4">
+                            		
+                                    <select name="menu_qx" class="form-control m-b">
+                                    <c:if test="${SysRole.menu_qx == 0 }">
+                                        <option value="0" selected="selected">可用</option>
+                                        <option value="1">禁用</option>
+                                         </c:if>
+                                        <c:if test="${SysRole.menu_qx == 1}">
+                                        <option value="0" >可用</option>
+                                        <option value="1" selected="selected">禁用</option>
+                                         </c:if>
+                                    </select>
+                                   		
+                                   
+                                </div>
+                            </div>
+                            
+                            <div class="hr-line-dashed"></div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">新增权限</label>
+
+                                <div class="col-sm-4">
+                                    <select name="add_qx" class="form-control m-b">
+                                    	<c:if test="${SysRole.add_qx == 0}">
+                                        <option value="0" selected="selected">禁用</option>
+                                        <option value="1">可用</option>
+                                        </c:if>
+                                        <c:if test="${SysRole.add_qx == 1}">
+                                        <option value="0" >禁用</option>
+                                        <option value="1" selected="selected">可用</option>
+                                        </c:if>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="hr-line-dashed"></div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">修改权限</label>
+
+                                <div class="col-sm-4">
+                                    <select name="edit_qx" class="form-control m-b">
+                                	<c:if test="${SysRole.edit_qx == '0'}">
+                                        <option value="0" selected="selected">禁用</option>
+                                        <option value="1">可用</option>
+                                        </c:if>
+                                        <c:if test="${SysRole.edit_qx == '1'}">
+                                        <option value="0" >禁用</option>
+                                        <option value="1" selected="selected">可用</option>
+                                        </c:if>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="hr-line-dashed"></div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">删除权限</label>
+
+                                <div class="col-sm-4">
+                                    <select name="del_qx" class="form-control m-b">
+                                 	<c:if test="${SysRole.del_qx == '0'}">
+                                        <option value="0" selected="selected">禁用</option>
+                                        <option value="1">可用</option>
+                                        </c:if>
+                                        <c:if test="${SysRole.del_qx == '1'}">
+                                        <option value="0" >禁用</option>
+                                        <option value="1" selected="selected">可用</option>
+                                        </c:if>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="hr-line-dashed"></div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">查看权限</label>
+
+                                <div class="col-sm-4">
+                                    <select name="select_qx" class="form-control m-b">
+                              	<c:if test="${SysRole.select_qx == '0'}">
+                                        <option value="0" selected="selected">禁用</option>
+                                        <option value="1">可用</option>
+                                        </c:if>
+                                        	<c:if test="${SysRole.select_qx == '1'}">
+                                        <option value="0" >禁用</option>
+                                        <option value="1" selected="selected">可用</option>
+                                        </c:if>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="hr-line-dashed"></div>
+                           
+                            
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit">保存</button>
+                                    <button class="btn btn-white" >取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="${pageContext.request.contextPath }/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${pageContext.request.contextPath }/js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="${pageContext.request.contextPath }/js/content.min.js?v=1.0.0"></script>
+    <script src="${pageContext.request.contextPath }/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="${pageContext.request.contextPath }/js/sysuser.js"></script>
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+</body>
+
+</html>
